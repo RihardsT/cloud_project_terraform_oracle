@@ -8,7 +8,7 @@ permissions:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: github-arc-runners
+    runs-on: github-arc-runners-tf
     # runs-on: ubuntu-latest
     environment: production
     defaults:
