@@ -18,11 +18,13 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+    - uses: hashicorp/setup-terraform@v3
     - name: Terraform Init
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
         echo ${{ secrets.OCI_PEM }} | base64 -d > oci.pem
         echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
+        ls
     - name: Terraform Init
       run: terraform init -backend-config=backend
     - name: Terraform Format
