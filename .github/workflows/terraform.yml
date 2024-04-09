@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Install dependencies
       run: |
-        sudo apt update && sudo apt install unzip
+        sudo apt update && sudo apt install unzip wget
         wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
         unzip terraform_1.7.5_linux_amd64.zip
     - name: Terraform Init
@@ -37,6 +37,7 @@ jobs:
     - name: Terraform Plan
       run: ./terraform plan -input=false
   terraform_apply:
+    needs: terraform
     environment: production
     runs-on: github-arc-runners-tf
     steps:
