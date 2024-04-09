@@ -15,7 +15,7 @@ jobs:
       run:
         shell: bash
     # container: hashicorp/terraform:latest
-    container: ubuntu:22.04
+    # container: ubuntu:22.04
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
