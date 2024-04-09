@@ -14,14 +14,15 @@ jobs:
     defaults:
       run:
         shell: bash
-    container: hashicorp/terraform:latest
+    # container: hashicorp/terraform:latest
+    container: ubuntu:22.04
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-    # - name: Install dependencies
-    #   run: sudo apt update && apt install unzip
-    # - uses: hashicorp/setup-terraform@v3
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install unzip
+    - uses: hashicorp/setup-terraform@v3
     - name: Terraform Init
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
