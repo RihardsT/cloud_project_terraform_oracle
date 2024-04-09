@@ -10,7 +10,6 @@ jobs:
     name: 'Terraform'
     runs-on: github-arc-runners-tf
     # runs-on: ubuntu-latest
-    environment: production
     defaults:
       run:
         shell: bash
@@ -21,8 +20,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Install dependencies
-      run: sudo apt update && sudo apt install unzip
-    - uses: hashicorp/setup-terraform@v3
+      run: |
+        sudo apt update && sudo apt install unzip
+        wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+        unzip terraform_1.7.5_linux_amd64.zip
     - name: Terraform Init
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
@@ -30,11 +31,12 @@ jobs:
         echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
         ls
     - name: Terraform Init
-      run: terraform init -backend-config=backend
+      run: ./terraform init -backend-config=backend
     - name: Terraform Format
-      run: terraform fmt -check
+      run: ./terraform fmt -check
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: ./terraform plan -input=false
     - name: Terraform Apply
+      environment: production
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      run: ./terraform apply -auto-approve -input=false
