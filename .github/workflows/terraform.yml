@@ -22,8 +22,11 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update && sudo apt install -y unzip wget
-        wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-        unzip terraform_1.7.5_linux_amd64.zip
+        # currently my runners run on ARM64
+        wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
+        unzip terraform_1.7.5_linux_arm64.zip
+        # wget https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+        # unzip terraform_1.7.5_linux_amd64.zip
     - name: Terraform Init
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
