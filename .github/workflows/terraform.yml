@@ -19,7 +19,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Install dependencies
-      run: apt update && apt install unzip
+      run: sudo apt update && apt install unzip
     - uses: hashicorp/setup-terraform@v3
     - name: Terraform Init
       run: |
