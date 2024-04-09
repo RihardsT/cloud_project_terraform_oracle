@@ -1,4 +1,9 @@
 ### Init
+```
+terraform init -backend-config=secrets/backend
+```
+
+### Pre-requisites
 Pre-req variable values:  
 https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm  
 Going through the doc - you first will have to generate new API key.  
@@ -14,4 +19,3 @@ https://cloud.oracle.com/identity/compartments
 
 After that can follow Terraform provider documentation:  
 https://registry.terraform.io/providers/oracle/oci
-
