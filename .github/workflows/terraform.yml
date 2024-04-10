@@ -43,7 +43,7 @@ jobs:
       with:
         path: |
           plan.out
-        key: terraform_plan
+        key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
 
   terraform_apply:
     needs: terraform
@@ -71,7 +71,7 @@ jobs:
       with:
         path: |
           plan.out
-        key: terraform_plan
+        key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
     - name: Terraform Init
       run: ./terraform init -backend-config=backend
     - name: Terraform Apply
