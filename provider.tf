@@ -23,3 +23,4 @@ provider "oci" {
 
 # Variables for resources
 variable "root_compartment" {}
+variable "vm_metadata" {}

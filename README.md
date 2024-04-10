@@ -19,7 +19,3 @@ https://cloud.oracle.com/identity/compartments
 
 After that can follow Terraform provider documentation:  
 https://registry.terraform.io/providers/oracle/oci
-
-
-### Import
-terraform import oci_core_instance.test_instance "ocid1.instance.oc1.eu-stockholm-1.anqxeljruxqu7kycvallsf72kpoq3swiwa52zayuejlyjfradd3ktpc37eka"
