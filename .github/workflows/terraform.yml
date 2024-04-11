@@ -32,13 +32,16 @@ jobs:
         echo ${{ secrets.OCI_PEM }} | base64 -d > oci.pem
         echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
         ls
+        echo "First loop"
         for tf_var in $(compgen -v | grep '^TF_VAR_'); do
+          echo "${tf_var}"
           partial="${tf_var#TF_VAR_}";
           lower="${partial,,}"
           export TF_VAR_$lower=${!tf_var}
         done
-        for var in $(compgen -v | grep '^TF_VAR_'); do
-          echo "${var} = ${!var}"
+        echo "Second loop"
+        for tf_var in $(compgen -v | grep '^TF_VAR_'); do
+          echo "${tf_var} = ${!tf_var}"
         done
     - name: Terraform Init
       run: ./terraform init -backend-config=backend
