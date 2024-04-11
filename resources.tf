@@ -16,50 +16,50 @@ resource "oci_objectstorage_bucket" "test_bucket" {
 }
 
 data "oci_identity_availability_domain" "test_compartment" {
-    compartment_id = var.tenancy_ocid
-    ad_number = 1
+  compartment_id = var.tenancy_ocid
+  ad_number      = 1
 }
 
 resource "oci_core_vcn" "test_vcn" {
   compartment_id = oci_identity_compartment.test_compartment.id
-  cidr_blocks = ["10.0.0.0/16"]
+  cidr_blocks    = ["10.0.0.0/16"]
 }
 
 resource "oci_core_route_table" "test_route_table" {
   compartment_id = oci_identity_compartment.test_compartment.id
-  vcn_id = oci_core_vcn.test_vcn.id
+  vcn_id         = oci_core_vcn.test_vcn.id
   route_rules {
     network_entity_id = oci_core_internet_gateway.test_internet_gateway.id
-    destination = "0.0.0.0/0"
-    destination_type = "CIDR_BLOCK"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
   }
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  cidr_block = "10.0.1.0/24"
+  cidr_block     = "10.0.1.0/24"
   compartment_id = oci_identity_compartment.test_compartment.id
-  vcn_id = oci_core_vcn.test_vcn.id
+  vcn_id         = oci_core_vcn.test_vcn.id
   route_table_id = oci_core_route_table.test_route_table.id
 }
 
 resource "oci_core_internet_gateway" "test_internet_gateway" {
   compartment_id = oci_identity_compartment.test_compartment.id
-  vcn_id = oci_core_vcn.test_vcn.id
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_core_instance" "test_instance" {
   availability_domain = data.oci_identity_availability_domain.test_compartment.name # "Xwvt:EU-STOCKHOLM-1-AD-1"
-  compartment_id = oci_identity_compartment.test_compartment.id
-  shape = "VM.Standard.A1.Flex"
-  display_name = "oc1"
+  compartment_id      = oci_identity_compartment.test_compartment.id
+  shape               = "VM.Standard.A1.Flex"
+  display_name        = "oc1"
 
   shape_config {
     memory_in_gbs = 24
-    ocpus = 4
+    ocpus         = 4
   }
   create_vnic_details {
     assign_public_ip = "true"
-    subnet_id = oci_core_subnet.test_subnet.id
+    subnet_id        = oci_core_subnet.test_subnet.id
   }
   source_details {
     boot_volume_size_in_gbs = "100"
@@ -74,7 +74,7 @@ resource "oci_core_instance" "test_instance" {
   }
   metadata = var.vm_metadata
   provisioner "local-exec" {
-    command = <<EOT
+    command    = <<EOT
     # TODO if some_variable == true, then continue, else exit 0
     export ANSIBLE_HOST_KEY_CHECKING=False && export ANSIBLE_SSH_RETRIES=5 && \
     ansible-playbook -i ${self.public_ip}, \

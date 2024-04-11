@@ -25,4 +25,4 @@ provider "oci" {
 variable "root_compartment" {}
 variable "vm_metadata" {}
 
-variable "storage_bucket_name" {}
+variable "storage_bucket_name" { default = "rih_test_storage" }
