@@ -37,6 +37,9 @@ jobs:
           lower="${partial,,}"
           export TF_VAR_$lower=${!tf_var}
         done
+        for var in $(compgen -v | grep '^TF_VAR_'); do
+          echo "${var} = ${!var}"
+        done
     - name: Terraform Init
       run: ./terraform init -backend-config=backend
     # - name: Terraform Format
