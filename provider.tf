@@ -26,3 +26,4 @@ variable "root_compartment" {}
 variable "vm_metadata" {}
 
 variable "storage_bucket_name" { default = "rih_test_storage" }
+variable "is_run_remotely" { default = true }

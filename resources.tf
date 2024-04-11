@@ -75,7 +75,7 @@ resource "oci_core_instance" "test_instance" {
   metadata = var.vm_metadata
   provisioner "local-exec" {
     command    = <<EOT
-    # TODO if some_variable == true, then continue, else exit 0
+    if ${var.is_run_remotely}; then exit 0; fi;
     export ANSIBLE_HOST_KEY_CHECKING=False && export ANSIBLE_SSH_RETRIES=5 && \
     ansible-playbook -i ${self.public_ip}, \
     -e node_ip_address=${self.public_ip} \
