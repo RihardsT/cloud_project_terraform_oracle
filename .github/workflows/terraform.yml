@@ -33,7 +33,6 @@ jobs:
         echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
         ls
         echo ${{ vars }}
-        echo ${{ vars.TF_VAR_*}}
         echo "First loop"
         for tf_var in $(compgen -v | grep '^TF_VAR_'); do
           echo "${tf_var}"
