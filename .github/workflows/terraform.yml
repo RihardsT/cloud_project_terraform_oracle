@@ -22,10 +22,10 @@ jobs:
       run: |
         sudo apt update && sudo apt install -y unzip wget
         # currently my runners run on ARM64
-        # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
-        # unzip terraform_1.7.5_linux_arm64.zip
-        wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-        unzip terraform_1.7.5_linux_amd64.zip
+        wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
+        unzip terraform_1.7.5_linux_arm64.zip
+        # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+        # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
@@ -56,10 +56,10 @@ jobs:
       run: |
         sudo apt update && sudo apt install -y unzip wget
         # currently my runners run on ARM64
-        # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
-        # unzip terraform_1.7.5_linux_arm64.zip
-        wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-        unzip terraform_1.7.5_linux_amd64.zip
+        wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
+        unzip terraform_1.7.5_linux_arm64.zip
+        # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+        # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
         echo ${{ secrets.BACKEND }} | base64 -d > backend
