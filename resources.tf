@@ -75,12 +75,14 @@ resource "oci_core_instance" "test_instance" {
   metadata = var.vm_metadata
   provisioner "local-exec" {
     command = <<EOT
+    # TODO if some_variable == true, then continue, else exit 0
     export ANSIBLE_HOST_KEY_CHECKING=False && export ANSIBLE_SSH_RETRIES=5 && \
-    ansible-playbook -i ${self.ipv4_address}, \
-    -e node_ip_address=${self.ipv4_address} \
+    ansible-playbook -i ${self.public_ip}, \
+    -e node_ip_address=${self.public_ip} \
     -u ubuntu --diff -e ansible_python_interpreter=/usr/bin/python3 -e ansible_port=22 \
     /home/rihards/Code/cloud_project/cloud_project_ansible/oc1.yml
     EOT
+    on_failure = continue
   }
 }
 
