@@ -1,5 +1,5 @@
 resource "oci_core_security_list" "test_security_list" {
-  compartment_id = oci_identity_compartment.test_compartment.id
+  compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   egress_security_rules {
     destination      = "0.0.0.0/0"

@@ -1,32 +1,32 @@
-resource "oci_identity_compartment" "test_compartment" {
+resource "oci_identity_compartment" "rihtest" {
   compartment_id = var.root_compartment
   description    = "Rih Test Compartment"
   name           = "rihtest"
 }
 
 # data "oci_objectstorage_namespace" "test_namespace" {
-#   compartment_id = oci_identity_compartment.test_compartment.id
+#   compartment_id = oci_identity_compartment.rihtest.id
 # }
 
 # resource "oci_objectstorage_bucket" "test_bucket" {
-#   compartment_id = oci_identity_compartment.test_compartment.id
+#   compartment_id = oci_identity_compartment.rihtest.id
 #   # compartment_id = var.root_compartment
 #   name      = var.storage_bucket_name # "rih_test_storage"
 #   namespace = data.oci_objectstorage_namespace.test_namespace.namespace
 # }
 
-data "oci_identity_availability_domain" "test_compartment" {
+data "oci_identity_availability_domain" "rihtest" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
 
 resource "oci_core_vcn" "test_vcn" {
-  compartment_id = oci_identity_compartment.test_compartment.id
+  compartment_id = oci_identity_compartment.rihtest.id
   cidr_blocks    = ["10.0.0.0/16"]
 }
 
 resource "oci_core_route_table" "test_route_table" {
-  compartment_id = oci_identity_compartment.test_compartment.id
+  compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   route_rules {
     network_entity_id = oci_core_internet_gateway.test_internet_gateway.id
@@ -37,20 +37,20 @@ resource "oci_core_route_table" "test_route_table" {
 
 resource "oci_core_subnet" "test_subnet" {
   cidr_block        = "10.0.0.0/24"
-  compartment_id    = oci_identity_compartment.test_compartment.id
+  compartment_id    = oci_identity_compartment.rihtest.id
   vcn_id            = oci_core_vcn.test_vcn.id
   route_table_id    = oci_core_route_table.test_route_table.id
   security_list_ids = [oci_core_security_list.test_security_list.id]
 }
 
 resource "oci_core_internet_gateway" "test_internet_gateway" {
-  compartment_id = oci_identity_compartment.test_compartment.id
+  compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_core_instance" "oc1" {
-  availability_domain = data.oci_identity_availability_domain.test_compartment.name # "Xwvt:EU-STOCKHOLM-1-AD-1"
-  compartment_id      = oci_identity_compartment.test_compartment.id
+  availability_domain = data.oci_identity_availability_domain.rihtest.name # "Xwvt:EU-STOCKHOLM-1-AD-1"
+  compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.A1.Flex"
   display_name        = "oc1"
 
@@ -68,7 +68,7 @@ resource "oci_core_instance" "oc1" {
     source_id               = "ocid1.image.oc1.eu-stockholm-1.aaaaaaaandggwpmi2rcwh5dyqdwi4vkmloh36623r27wpwk2jh4tc3lrodnq"
     source_type             = "image"
     # instance_source_image_filter_details {
-    #   compartment_id = oci_identity_compartment.test_compartment.id
+    #   compartment_id = oci_identity_compartment.rihtest.id
     #   operating_system = "Canonical Ubuntu"
     #   operating_system_version = "22.04"
     # }
