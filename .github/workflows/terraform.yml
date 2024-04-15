@@ -29,6 +29,8 @@ jobs:
     #     # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
+        echo "${{ vars.TEST_VARIABLE }}" > test_var
+        cat test_var
         echo "${{ secrets.BACKEND }}" > backend
         echo "${{ secrets.OCI_PEM }}" > oci.pem
         echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars
