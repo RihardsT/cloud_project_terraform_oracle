@@ -33,7 +33,7 @@ jobs:
         cat test_var
         echo "${{ secrets.BACKEND }}" | base64 -d > backend
         echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
-        echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
+        echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars # | base64 -d 
     - name: Terraform Init
       run: terraform init -backend-config=backend
     - name: Terraform Plan
