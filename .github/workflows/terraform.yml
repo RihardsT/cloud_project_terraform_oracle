@@ -33,11 +33,9 @@ jobs:
         echo "${{ secrets.OCI_PEM }}" > oci.pem
         echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars
     - name: Terraform Init
-      run: ./terraform init -backend-config=backend
-    # - name: Terraform Format
-    #   run: ./terraform fmt -check
+      run: terraform init -backend-config=backend
     - name: Terraform Plan
-      run: ./terraform plan -out=plan.out
+      run: terraform plan -out=plan.out
     - name: Cache Terraform Plan
       uses: actions/cache/save@v4
       with:
@@ -72,7 +70,7 @@ jobs:
           plan.out
         key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
     - name: Terraform Init
-      run: ./terraform init -backend-config=backend
+      run: terraform init -backend-config=backend
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: ./terraform apply plan.out
+      run: terraform apply plan.out
