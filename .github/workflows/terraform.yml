@@ -16,8 +16,6 @@ jobs:
         shell: bash
     # container: hashicorp/terraform:latest
     # container: ubuntu:22.04
-    env:
-      TF_VAR_storage_bucket_name: ${{ vars.TF_VAR_STORAGE_BUCKET_NAME }}
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -31,9 +29,9 @@ jobs:
         # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
-        echo ${{ secrets.BACKEND }} > backend
-        echo ${{ secrets.OCI_PEM }} > oci.pem
-        echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
+        echo "${{ secrets.BACKEND }}" > backend
+        echo "${{ secrets.OCI_PEM }}" > oci.pem
+        echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars
     - name: Terraform Init
       run: ./terraform init -backend-config=backend
     # - name: Terraform Format
@@ -64,9 +62,9 @@ jobs:
         # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
-        echo ${{ secrets.BACKEND }} > backend
-        echo ${{ secrets.OCI_PEM }} > oci.pem
-        echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
+        echo "${{ secrets.BACKEND }}" > backend
+        echo "${{ secrets.OCI_PEM }}" > oci.pem
+        echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars
     - name: Restore cached Terraform plan
       uses: actions/cache/restore@v4
       with:
