@@ -34,19 +34,6 @@ jobs:
         echo ${{ secrets.BACKEND }} > backend
         echo ${{ secrets.OCI_PEM }} > oci.pem
         echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
-        ls
-        echo ${{ vars }}
-        echo "First loop"
-        for tf_var in $(compgen -v | grep '^TF_VAR_'); do
-          echo "${tf_var}"
-          partial="${tf_var#TF_VAR_}";
-          lower="${partial,,}"
-          export TF_VAR_$lower=${!tf_var}
-        done
-        echo "Second loop"
-        for tf_var in $(compgen -v | grep '^TF_VAR_'); do
-          echo "${tf_var} = ${!tf_var}"
-        done
     - name: Terraform Init
       run: ./terraform init -backend-config=backend
     # - name: Terraform Format
@@ -80,12 +67,6 @@ jobs:
         echo ${{ secrets.BACKEND }} > backend
         echo ${{ secrets.OCI_PEM }} > oci.pem
         echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
-        ls
-        for tf_var in $(compgen -v | grep '^TF_VAR_'); do
-          partial="${tf_var#TF_VAR_}";
-          lower="${partial,,}"
-          export TF_VAR_$lower=${!tf_var}
-        done
     - name: Restore cached Terraform plan
       uses: actions/cache/restore@v4
       with:
