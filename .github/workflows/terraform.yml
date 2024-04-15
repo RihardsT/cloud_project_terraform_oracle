@@ -7,6 +7,7 @@ permissions:
   contents: read
 jobs:
   terraform:
+    environment: production
     name: 'Terraform'
     runs-on: github-arc-runners-tf
     # runs-on: ubuntu-latest
@@ -30,9 +31,9 @@ jobs:
         # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
-        echo ${{ secrets.BACKEND }} | base64 -d > backend
-        echo ${{ secrets.OCI_PEM }} | base64 -d > oci.pem
-        echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
+        echo ${{ secrets.BACKEND }} > backend
+        echo ${{ secrets.OCI_PEM }} > oci.pem
+        echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
         ls
         echo ${{ vars }}
         echo "First loop"
@@ -76,9 +77,9 @@ jobs:
         # unzip terraform_1.7.5_linux_amd64.zip
     - name: Prep the required secrets
       run: |
-        echo ${{ secrets.BACKEND }} | base64 -d > backend
-        echo ${{ secrets.OCI_PEM }} | base64 -d > oci.pem
-        echo ${{ secrets.TERRAFORM_TFVARS_BASE64 }} | base64 -d > terraform.tfvars
+        echo ${{ secrets.BACKEND }} > backend
+        echo ${{ secrets.OCI_PEM }} > oci.pem
+        echo ${{ secrets.TERRAFORM_TFVARS }} > terraform.tfvars
         ls
         for tf_var in $(compgen -v | grep '^TF_VAR_'); do
           partial="${tf_var#TF_VAR_}";
