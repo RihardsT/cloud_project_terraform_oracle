@@ -1,6 +1,8 @@
 ### Init
 ```
-terraform init -backend-config=secrets/backend
+terraform init -backend-config=secrets/backend -upgrade
+
+terraform taint oci_core_instance.oc1
 ```
 
 ### Pre-requisites
