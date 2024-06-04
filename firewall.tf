@@ -1,3 +1,7 @@
+# Protocol
+# 1 = ICMP
+# 6 = TCP
+# 17 = UDP
 resource "oci_core_security_list" "test_security_list" {
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
@@ -69,6 +73,25 @@ resource "oci_core_security_list" "test_security_list" {
       min = 10250
     }
   }
-
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+    tcp_options {
+      max = 25565
+      min = 25565
+    }
+  }
+  ingress_security_rules {
+    protocol    = "17"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+    udp_options {
+      max = 25565
+      min = 25565
+    }
+  }
   timeouts {}
 }
