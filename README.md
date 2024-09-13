@@ -25,8 +25,9 @@ https://registry.terraform.io/providers/oracle/oci
 ### Silly alias (on top of the ones in cloud_project_terraform_hetzner repo)
 ```
 tee -a ~/.bash_aliases <<EOF
-  alias oc1_up="terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ apply -target=hcloud_server.htz1 -auto-approve"
-  alias oc1_down="terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ destroy -target=hcloud_server.htz1 -auto-approve"
+  alias oc1_tf="terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ apply"
+  alias oc1_up="terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ apply -target=hcloud_server.oc1 -auto-approve"
+  alias oc1_down="terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ destroy -target=hcloud_server.oc1 -auto-approve"
   alias oc1_ssh="ssh $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) -o StrictHostKeyChecking=no -o 'UserKnownHostsFile=/dev/null'"
   alias oc1_ansible="ansible-playbook -i $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip), \
     -e node_ip_address=$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) \

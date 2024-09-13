@@ -49,6 +49,16 @@ resource "oci_core_security_list" "test_security_list" {
     source_type = "CIDR_BLOCK"
     stateless   = false
     tcp_options {
+      min = 80
+      max = 81
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+    tcp_options {
       max = 443
       min = 443
     }
