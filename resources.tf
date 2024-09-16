@@ -4,17 +4,18 @@ resource "oci_identity_compartment" "rihtest" {
   name           = "rihtest"
 }
 
-# data "oci_objectstorage_namespace" "test_namespace" {
-#   compartment_id = oci_identity_compartment.rihtest.id
-# }
+### Storage bucket
+data "oci_objectstorage_namespace" "rihtest" {
+  compartment_id = oci_identity_compartment.rihtest.id
+}
 
-# resource "oci_objectstorage_bucket" "test_bucket" {
-#   compartment_id = oci_identity_compartment.rihtest.id
-#   # compartment_id = var.root_compartment
-#   name      = var.storage_bucket_name # "rih_test_storage"
-#   namespace = data.oci_objectstorage_namespace.test_namespace.namespace
-# }
+resource "oci_objectstorage_bucket" "rihtest" {
+  compartment_id = oci_identity_compartment.rihtest.id
+  name      = var.storage_bucket_name # "rih_storage"
+  namespace = data.oci_objectstorage_namespace.rihtest.namespace
+}
 
+### VM Stuff
 data "oci_identity_availability_domain" "rihtest" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
