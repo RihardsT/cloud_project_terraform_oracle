@@ -24,6 +24,7 @@ provider "oci" {
 # Variables for resources
 variable "root_compartment" {}
 variable "vm_metadata" {}
+variable "internal_vm_metadata" {}
 
 variable "storage_bucket_name" { default = "rih_storage" }
 variable "is_run_remotely" { default = true }

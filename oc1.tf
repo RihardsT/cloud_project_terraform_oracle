@@ -11,6 +11,7 @@ resource "oci_core_instance" "oc1" {
   create_vnic_details {
     assign_public_ip = "true"
     subnet_id        = oci_core_subnet.test_subnet.id
+    skip_source_dest_check = "true" # To bet able to NAT to the backend instances
   }
   source_details {
     boot_volume_size_in_gbs = "100"

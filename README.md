@@ -34,4 +34,7 @@ tee -a ~/.bash_aliases <<EOF
     -u rihards --diff -e ansible_python_interpreter=/usr/bin/python3 -e ansible_port=22 \
     /home/rihards/Code/cloud_project/cloud_project_ansible/oc1.yml"
 EOF
+
+ssh -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_2)
+ssh -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_3)
 ```
