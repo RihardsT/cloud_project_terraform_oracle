@@ -26,7 +26,7 @@ resource "oci_core_instance" "oc0" {
   }
   create_vnic_details {
     assign_public_ip = "false"
-    subnet_id        = oci_core_subnet.test_subnet.id
+    subnet_id        = oci_core_subnet.private_subnet.id
   }
   source_details {
     boot_volume_size_in_gbs = "50"

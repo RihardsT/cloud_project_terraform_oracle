@@ -3,6 +3,7 @@
 # 6 = TCP
 # 17 = UDP
 resource "oci_core_security_list" "test_security_list" {
+  display_name = "Public security list"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   egress_security_rules {
@@ -41,6 +42,12 @@ resource "oci_core_security_list" "test_security_list" {
       max = 22
       min = 22
     }
+  }
+  ingress_security_rules { # For NAT instance
+    protocol    = "all"
+    source      = "10.0.1.0/24" # From private subnet
+    source_type = "CIDR_BLOCK"
+    stateless   = false
   }
   # Non default port openings
   ingress_security_rules {

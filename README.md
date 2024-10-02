@@ -35,6 +35,6 @@ tee -a ~/.bash_aliases <<EOF
     /home/rihards/Code/cloud_project/cloud_project_ansible/oc1.yml"
 EOF
 
-ssh -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_2)
-ssh -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_3)
+ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile=/dev/null' -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_2)
+ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile=/dev/null' -A -J $(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip) ubuntu@$(terraform -chdir=/home/rihards/Code/cloud_project/cloud_project_terraform_oracle/ output -raw ip_3)
 ```
