@@ -43,9 +43,8 @@ resource "oci_core_instance" "oc1" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-    kubectl delete -f /home/rihards/Code/cloud_project/cloud_project_kubernetes/Minecraft/minecraft.yml; \
-    kubectl delete node minecraft; \
-    htz_ssh sh -c '/data/minecraft_backup.sh'
+    kubectl delete -f /home/rihards/Code/cloud_project/cloud_project_kubernetes/Minecraft/minecraft.yaml; \
+    oc1_ssh sh -c '/data/minecraft_backup.sh'
     EOT
   }
 }
