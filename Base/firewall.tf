@@ -33,71 +33,19 @@ resource "oci_core_security_list" "test_security_list" {
       type = 3
     }
   }
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      max = 22
-      min = 22
-    }
-  }
-  ingress_security_rules { # For NAT instance
-    protocol    = "all"
-    source      = "10.0.1.0/24" # From private subnet
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-  }
-  # Non default port openings
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      min = 80
-      max = 81
-    }
-  }
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      max = 443
-      min = 443
-    }
-  }
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      max = 6443
-      min = 6443
-    }
-  }
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      max = 10250
-      min = 10250
-    }
-  }
-  ingress_security_rules {
-    protocol    = "6"
-    source      = "0.0.0.0/0"
-    source_type = "CIDR_BLOCK"
-    stateless   = false
-    tcp_options {
-      max = 25565
-      min = 25565
+  # TCP ingress rules from Internet
+  dynamic "ingress_security_rules" {
+    for_each = toset([22,80,81,443,6443,10250,25565])
+    iterator = tcp_port
+    content {
+      protocol    = "6"
+      source      = "0.0.0.0/0"
+      source_type = "CIDR_BLOCK"
+      stateless   = false
+      tcp_options {
+        max = tcp_port.value
+        min = tcp_port.value
+      }
     }
   }
   ingress_security_rules {
@@ -109,6 +57,12 @@ resource "oci_core_security_list" "test_security_list" {
       max = 25565
       min = 25565
     }
+  }
+  ingress_security_rules { # For NAT instance
+    protocol    = "all"
+    source      = "10.0.1.0/24" # From private subnet
+    source_type = "CIDR_BLOCK"
+    stateless   = false
   }
   timeouts {}
 }
