@@ -15,10 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Prep the required secrets
-      run: |
-        echo "${{ secrets.BACKEND }}" | base64 -d > backend
-        echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
-        echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars # | base64 -d 
+        run: |
+          echo "${{ secrets.BACKEND }}" | base64 -d > backend
+          echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
+          echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars # | base64 -d
       - name: Get tfer
         run: |
           wget https://raw.githubusercontent.com/RihardsT/tfer/refs/heads/main/tfer
