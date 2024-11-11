@@ -1,78 +1,78 @@
-name: 'Terraform'
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-permissions:
-  contents: read
-jobs:
-  terraform:
-    environment: production
-    name: 'Terraform'
-    # runs-on: github-arc-runners-tf
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    # container: hashicorp/terraform:latest
-    # container: ubuntu:22.04
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    # - name: Install dependencies
-    #   run: |
-    #     sudo apt update && sudo apt install -y unzip wget
-    #     # currently my runners run on ARM64
-    #     wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
-    #     unzip terraform_1.7.5_linux_arm64.zip
-    #     # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-    #     # unzip terraform_1.7.5_linux_amd64.zip
-    - name: Prep the required secrets
-      run: |
-        echo "${{ vars.TEST_VARIABLE }}" > test_var
-        cat test_var
-        echo "${{ secrets.BACKEND }}" | base64 -d > backend
-        echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
-        echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars # | base64 -d 
-    - name: Terraform Init
-      run: terraform init -backend-config=backend
-    - name: Terraform Plan
-      run: terraform plan -out=plan.out
-    - name: Cache Terraform Plan
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          plan.out
-        key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
+# name: 'Terraform'
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+# permissions:
+#   contents: read
+# jobs:
+#   terraform:
+#     environment: production
+#     name: 'Terraform'
+#     # runs-on: github-arc-runners-tf
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         shell: bash
+#     # container: hashicorp/terraform:latest
+#     # container: ubuntu:22.04
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4
+#     # - name: Install dependencies
+#     #   run: |
+#     #     sudo apt update && sudo apt install -y unzip wget
+#     #     # currently my runners run on ARM64
+#     #     wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
+#     #     unzip terraform_1.7.5_linux_arm64.zip
+#     #     # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+#     #     # unzip terraform_1.7.5_linux_amd64.zip
+#     - name: Prep the required secrets
+#       run: |
+#         echo "${{ vars.TEST_VARIABLE }}" > test_var
+#         cat test_var
+#         echo "${{ secrets.BACKEND }}" | base64 -d > backend
+#         echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
+#         echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars # | base64 -d
+#     - name: Terraform Init
+#       run: terraform init -backend-config=backend
+#     - name: Terraform Plan
+#       run: terraform plan -out=plan.out
+#     - name: Cache Terraform Plan
+#       uses: actions/cache/save@v4
+#       with:
+#         path: |
+#           plan.out
+#         key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
 
-  terraform_apply:
-    needs: terraform
-    environment: production
-    runs-on: github-arc-runners-tf
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    # - name: Install dependencies
-    #   run: |
-    #     sudo apt update && sudo apt install -y unzip wget
-    #     # currently my runners run on ARM64
-    #     wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
-    #     unzip terraform_1.7.5_linux_arm64.zip
-    #     # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
-    #     # unzip terraform_1.7.5_linux_amd64.zip
-    - name: Prep the required secrets
-      run: |
-        echo "${{ secrets.BACKEND }}" | base64 -d > backend
-        echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
-        echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
-    - name: Restore cached Terraform plan
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          plan.out
-        key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
-    - name: Terraform Init
-      run: terraform init -backend-config=backend
-    - name: Terraform Apply
-      # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply plan.out
+#   terraform_apply:
+#     needs: terraform
+#     environment: production
+#     runs-on: github-arc-runners-tf
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4
+#     # - name: Install dependencies
+#     #   run: |
+#     #     sudo apt update && sudo apt install -y unzip wget
+#     #     # currently my runners run on ARM64
+#     #     wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_arm64.zip
+#     #     unzip terraform_1.7.5_linux_arm64.zip
+#     #     # wget -q https://releases.hashicorp.com/terraform/1.7.5/terraform_1.7.5_linux_amd64.zip
+#     #     # unzip terraform_1.7.5_linux_amd64.zip
+#     - name: Prep the required secrets
+#       run: |
+#         echo "${{ secrets.BACKEND }}" | base64 -d > backend
+#         echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
+#         echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
+#     - name: Restore cached Terraform plan
+#       uses: actions/cache/restore@v4
+#       with:
+#         path: |
+#           plan.out
+#         key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
+#     - name: Terraform Init
+#       run: terraform init -backend-config=backend
+#     - name: Terraform Apply
+#       # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#       run: terraform apply plan.out

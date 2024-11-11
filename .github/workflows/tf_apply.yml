@@ -17,9 +17,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Prep the required secrets
         run: |
-          echo "${{ secrets.BACKEND }}" | base64 -d > backend
-          echo "${{ secrets.OCI_PEM }}" | base64 -d > oci.pem
-          echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
+          echo "${{ vars.TEST_VARIABLE }}" > test_var
+          cat test_var
+          echo "${{ secrets.BACKEND }}" > backend
+          echo "${{ secrets.OCI_PEM }}" > oci.pem
+          echo "${{ secrets.TERRAFORM_TFVARS }}" > terraform.tfvars
       - name: Restore cached Terraform plan
         uses: actions/cache/restore@v4
         with:
