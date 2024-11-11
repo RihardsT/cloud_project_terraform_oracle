@@ -32,6 +32,6 @@ jobs:
           wget https://raw.githubusercontent.com/RihardsT/tfer/refs/heads/main/tfer
           chmod +x tfer
       - name: Terraform Init
-        run: ./tfer init -backend-config=../backend
+        run: terraform init -backend-config=backend
       - name: Terraform Apply
         run: ./tfer apply plan.out
