@@ -17,6 +17,8 @@ jobs:
         run: |
           echo "${{ vars.TEST_VARIABLE }}" > test_var
           cat test_var
+          echo ${PWD}
+          echo ~
           echo "${{ secrets.BACKEND }}" | base64 -d > backend
           echo "${{ secrets.OCI_PEM }}" > oci.pem
           echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
