@@ -40,17 +40,14 @@ jobs:
           path: |
             plan.out
           key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
-      ##### 
       - name: plan.out as json
         id: plan-output
         run: |
           terraform show -json plan.out > plan.json
           changes=$(jq -r '.resource_changes[] | select(.change.actions[] != "no-op") | "\(.change.actions[]) = \(.address)"' plan.json)
-          # echo "::set-output name=change::$changes"
           echo "change=${changes}" >> $GITHUB_OUTPUT
-      #####
       - name: Update PR
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         id: plan-comment
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -62,7 +59,7 @@ jobs:
               issue_number: context.issue.number,
             });
             const botComment = comments.find(comment => {
-              return comment.user.type === 'Bot' && comment.body.includes('Terraform Cloud Output')
+              return comment.user.type === 'Bot' && comment.body.includes('Terraform Plan Output')
             });
             const output = `#### Terraform Plan Output
                \`\`\`
