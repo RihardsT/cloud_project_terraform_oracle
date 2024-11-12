@@ -44,12 +44,8 @@ jobs:
         id: plan-output
         run: |
           terraform show -json plan.out > plan.json
-          changes=$(jq -r '.resource_changes[] | select(.change.actions[] != "no-op") | "\(.change.actions[]) = \(.address)"' plan.json)
+          changes=$(jq -r '.resource_changes[] | select(.change.actions[] != "no-op") | "\(.change.actions[]) = \(.address)"' plan.json | tr '\n' ' ')
           echo "change=${changes}" >> $GITHUB_OUTPUT
-          echo "github_output = ${GITHUB_OUTPUT}"
-          echo "changes variable ${changes}"
-          changes_json= ${{ toJSON(${changes}) }}
-          echo "${changes_json}"
       - name: Update PR
         uses: actions/github-script@v7
         id: plan-comment
