@@ -48,7 +48,7 @@ jobs:
           echo "change=${changes}" >> $GITHUB_OUTPUT
           echo "github_output = ${GITHUB_OUTPUT}"
           echo "changes variable ${changes}"
-          changes_json=toJSON(changes)
+          changes_json= ${{ toJSON(${changes}) }}
           echo "${changes_json}"
       - name: Update PR
         uses: actions/github-script@v7
