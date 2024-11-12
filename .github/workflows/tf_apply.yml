@@ -19,12 +19,12 @@ jobs:
           echo "${{ secrets.BACKEND }}" | base64 -d > backend
           echo "${{ secrets.OCI_PEM }}" > oci.pem
           echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 -d > terraform.tfvars
-      - name: Restore cached Terraform plan
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            plan.out
-          key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
+      # - name: Restore cached Terraform plan
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: |
+      #       plan.out
+      #     key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
       - name: Get tfer
         run: |
           wget https://raw.githubusercontent.com/RihardsT/tfer/refs/heads/main/tfer
@@ -32,4 +32,4 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=backend
       - name: Terraform Apply
-        run: ./tfer apply plan.out
+        run: ./tfer apply # plan.out
