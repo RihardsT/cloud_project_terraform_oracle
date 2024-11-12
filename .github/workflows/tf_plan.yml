@@ -43,9 +43,7 @@ jobs:
       ##### 
       - name: plan.out as json
         id: plan-output
-        run:
-          ls
-          terraform version
+        run: |
           terraform show -json plan.out > plan.json
           changes=$(jq -r '.resource_changes[] | select(.change.actions[] != "no-op") | "\(.change.actions[]) = \(.address)"' plan.json)
           echo "::set-output name=change::$changes"
