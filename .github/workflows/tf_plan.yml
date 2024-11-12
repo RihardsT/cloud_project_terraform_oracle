@@ -2,6 +2,10 @@ name: "Terraform Plan"
 on:
   pull_request:
 
+output:
+  change:
+    description: "Parsed Terraform plan changes"
+
 jobs:
   terraform:
     name: "Terraform Plan"
@@ -37,11 +41,12 @@ jobs:
             plan.out
           key: terraform_plan-${{github.run_id}}-${{github.run_attempt}}
       ##### 
-      - name: Get Plan Output
-        uses: hashicorp/tfc-workflows-github/actions/plan-output@v1.3.1
+      - name: plan.out as json
         id: plan-output
-        with:
-          plan: plan.out
+        run:
+          terraform show -json plan.out > plan.json
+          changes=$(jq -r '.resource_changes[] | select(.change.actions[] != "no-op") | "\(.change.actions[]): \(.address)"' plan.json)
+          echo "::set-output name=change::$changes"
       #####
       - name: Update PR
         uses: actions/github-script@v6
@@ -60,7 +65,7 @@ jobs:
             });
             const output = `#### Terraform Plan Output
                \`\`\`
-               Plan: ${{ steps.plan-output.outputs.add }} to add, ${{ steps.plan-output.outputs.change }} to change, ${{ steps.plan-output.outputs.destroy }} to destroy.
+               Plan changes: ${{ steps.plan-output.outputs.change }}
                \`\`\`
                `;
             // 3. Delete previous comment so PR timeline makes sense
