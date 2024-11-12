@@ -32,4 +32,4 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=backend
       - name: Terraform Apply
-        run: ./tfer apply # plan.out
+        run: ./tfer apply -auto-approve # plan.out
