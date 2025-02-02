@@ -11,8 +11,8 @@ data "oci_objectstorage_namespace" "rihtest" {
 
 resource "oci_objectstorage_bucket" "rihtest" {
   compartment_id = oci_identity_compartment.rihtest.id
-  name      = var.storage_bucket_name # "rih_storage"
-  namespace = data.oci_objectstorage_namespace.rihtest.namespace
+  name           = var.storage_bucket_name # "rih_storage"
+  namespace      = data.oci_objectstorage_namespace.rihtest.namespace
 }
 
 ### VM Stuff - vcn, subnet, route table
@@ -22,13 +22,13 @@ data "oci_identity_availability_domain" "rihtest" {
 }
 
 resource "oci_core_vcn" "test_vcn" {
-  display_name = "Main VNET"
+  display_name   = "Main VNET"
   compartment_id = oci_identity_compartment.rihtest.id
   cidr_blocks    = ["10.0.0.0/16"]
 }
 
 resource "oci_core_subnet" "test_subnet" {
-  display_name = "Public subnet"
+  display_name      = "Public subnet"
   cidr_block        = "10.0.0.0/24"
   compartment_id    = oci_identity_compartment.rihtest.id
   vcn_id            = oci_core_vcn.test_vcn.id
@@ -42,7 +42,7 @@ resource "oci_core_internet_gateway" "test_internet_gateway" {
 }
 
 resource "oci_core_route_table" "test_route_table" {
-  display_name = "Public route table"
+  display_name   = "Public route table"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   route_rules {

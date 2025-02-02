@@ -3,7 +3,7 @@
 # 6 = TCP
 # 17 = UDP
 resource "oci_core_security_list" "test_security_list" {
-  display_name = "Public security list"
+  display_name   = "Public security list"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   egress_security_rules {
@@ -35,7 +35,7 @@ resource "oci_core_security_list" "test_security_list" {
   }
   # TCP ingress rules from Internet
   dynamic "ingress_security_rules" {
-    for_each = toset([22,80,81,443,6443,10250,25565])
+    for_each = toset([22, 80, 81, 443, 6443, 10250, 25565])
     iterator = tcp_port
     content {
       protocol    = "6"

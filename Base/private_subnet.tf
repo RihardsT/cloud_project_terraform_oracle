@@ -5,7 +5,7 @@
 
 ### Private subnet configuration, to enable oc1 instance to work as NAT instance
 resource "oci_core_security_list" "private_security_list" {
-  display_name = "Private security list"
+  display_name   = "Private security list"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   egress_security_rules {
@@ -47,7 +47,7 @@ resource "oci_core_security_list" "private_security_list" {
 
 data "oci_core_vnic_attachments" "oc1_vnic" {
   compartment_id = oci_identity_compartment.rihtest.id
-  instance_id = oci_core_instance.oc1.id
+  instance_id    = oci_core_instance.oc1.id
 }
 data "oci_core_private_ips" "test_private_ips_by_ip_address" {
   vnic_id = data.oci_core_vnic_attachments.oc1_vnic.vnic_attachments[0].vnic_id
@@ -57,7 +57,7 @@ data "oci_core_private_ips" "test_private_ips_by_ip_address" {
 # }
 
 resource "oci_core_route_table" "private_route_table" {
-  display_name = "Private route table"
+  display_name   = "Private route table"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.test_vcn.id
   route_rules {
@@ -68,11 +68,11 @@ resource "oci_core_route_table" "private_route_table" {
 }
 
 resource "oci_core_subnet" "private_subnet" {
-  display_name      = "Private subnet"
-  cidr_block        = "10.0.1.0/24"
-  compartment_id    = oci_identity_compartment.rihtest.id
-  vcn_id            = oci_core_vcn.test_vcn.id
-  route_table_id    = oci_core_route_table.private_route_table.id
-  security_list_ids = [oci_core_security_list.private_security_list.id]
+  display_name              = "Private subnet"
+  cidr_block                = "10.0.1.0/24"
+  compartment_id            = oci_identity_compartment.rihtest.id
+  vcn_id                    = oci_core_vcn.test_vcn.id
+  route_table_id            = oci_core_route_table.private_route_table.id
+  security_list_ids         = [oci_core_security_list.private_security_list.id]
   prohibit_internet_ingress = true
 }

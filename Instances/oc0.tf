@@ -1,20 +1,20 @@
 data "oci_core_images" "example_images" {
-  compartment_id = oci_identity_compartment.rihtest.id
-  operating_system        = "Canonical Ubuntu"
+  compartment_id           = oci_identity_compartment.rihtest.id
+  operating_system         = "Canonical Ubuntu"
   operating_system_version = "24.04"
   # operating_system        = "Oracle Linux"
   # operating_system_version = "7.9"
   # operating_system        = "Oracle Autonomous Linux"
   # operating_system_version = "8"
-  shape                   = "VM.Standard.E2.1.Micro"
-  state                   = "AVAILABLE"
+  shape = "VM.Standard.E2.1.Micro"
+  state = "AVAILABLE"
 }
 # output "image_id" {
 #   value = data.oci_core_images.example_images.images[0].id
 # }
 
 resource "oci_core_instance" "oc0" {
-  count = 2
+  count               = 0
   availability_domain = data.oci_identity_availability_domain.rihtest.name
   compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.E2.1.Micro"
@@ -51,9 +51,9 @@ resource "oci_core_instance" "oc0" {
 # output "ip_0" {
 #   value = oci_core_instance.oc0[*].private_ip
 # }
-output "ip_2" {
-  value = oci_core_instance.oc0[0].private_ip
-}
-output "ip_3" {
-  value = oci_core_instance.oc0[1].private_ip
-}
+# output "ip_2" {
+#   value = oci_core_instance.oc0[0].private_ip
+# }
+# output "ip_3" {
+#   value = oci_core_instance.oc0[1].private_ip
+# }

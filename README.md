@@ -1,8 +1,8 @@
 ### Init
 ```
-terraform init -backend-config=secrets/backend -upgrade
+tofu init -backend-config=secrets/backend -upgrade
 
-terraform taint oci_core_instance.oc1
+tofu taint oci_core_instance.oc1
 
 # With my trashy tfer
 tfer init -backend-config=../secrets/backend -upgrade
