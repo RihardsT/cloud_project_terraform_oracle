@@ -1,7 +1,7 @@
 data "oci_core_images" "ubuntu_A1" {
   compartment_id           = oci_identity_compartment.rihtest.id
   operating_system         = "Canonical Ubuntu"
-  operating_system_version = "22.04"
+  operating_system_version = "24.04"
   shape                    = "VM.Standard.A1.Flex"
   state                    = "AVAILABLE"
 }
@@ -18,14 +18,14 @@ resource "oci_core_instance" "oc1" {
   }
   create_vnic_details {
     assign_public_ip       = "true"
-    subnet_id              = oci_core_subnet.test_subnet.id
+    subnet_id              = oci_core_subnet.subnet.id
     skip_source_dest_check = "true" # To be able to NAT to the backend instances
   }
   source_details {
     boot_volume_size_in_gbs = "100"
     boot_volume_vpus_per_gb = "10"
-    source_id               = "ocid1.image.oc1.eu-stockholm-1.aaaaaaaandggwpmi2rcwh5dyqdwi4vkmloh36623r27wpwk2jh4tc3lrodnq"
-    # source_id               = data.oci_core_images.ubuntu_A1.images[0].id
+    # source_id               = "ocid1.image.oc1.eu-stockholm-1.aaaaaaaandggwpmi2rcwh5dyqdwi4vkmloh36623r27wpwk2jh4tc3lrodnq"
+    source_id               = data.oci_core_images.ubuntu_A1.images[0].id
     source_type = "image"
   }
   metadata = var.vm_metadata

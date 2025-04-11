@@ -2,8 +2,6 @@
 ```
 tofu init -backend-config=secrets/backend -upgrade
 
-tofu taint oci_core_instance.oc1
-
 # With my trashy tfer
 tfer init -backend-config=../secrets/backend -upgrade
 ```
@@ -24,3 +22,11 @@ https://cloud.oracle.com/identity/compartments
 
 After that can follow Terraform provider documentation:  
 https://registry.terraform.io/providers/oracle/oci
+
+
+### Running in Oracle Cloud shell
+With cloud_project repo cloned and tfer repo too.
+```
+cd cloud_project/cloud_project_terraform_oracle
+../tfer/tfer plan
+```

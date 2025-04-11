@@ -2,10 +2,10 @@
 # 1 = ICMP
 # 6 = TCP
 # 17 = UDP
-resource "oci_core_security_list" "test_security_list" {
+resource "oci_core_security_list" "security_list" {
   display_name   = "Public security list"
   compartment_id = oci_identity_compartment.rihtest.id
-  vcn_id         = oci_core_vcn.test_vcn.id
+  vcn_id         = oci_core_vcn.vcn.id
   egress_security_rules {
     destination      = "0.0.0.0/0"
     destination_type = "CIDR_BLOCK"
