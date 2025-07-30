@@ -46,33 +46,37 @@ resource "oci_core_security_list" "private_security_list" {
 }
 
 data "oci_core_vnic_attachments" "oc1_vnic" {
+  count               = var.oc1_tf ? 1 : 0
   compartment_id = oci_identity_compartment.rihtest.id
-  instance_id    = oci_core_instance.oc1.id
+  instance_id    = oci_core_instance.oc1[0].id
 }
 data "oci_core_private_ips" "private_ips_by_ip_address" {
-  vnic_id = data.oci_core_vnic_attachments.oc1_vnic.vnic_attachments[0].vnic_id
+  count               = var.oc1_tf ? 1 : 0
+  vnic_id = data.oci_core_vnic_attachments.oc1_vnic[0].vnic_attachments[0].vnic_id
 }
 # output "vnic" {
 #   value = data.oci_core_private_ips.private_ips_by_ip_address.private_ips[0].id
 # }
 
 resource "oci_core_route_table" "private_route_table" {
+  count               = var.oc1_tf ? 1 : 0
   display_name   = "Private route table"
   compartment_id = oci_identity_compartment.rihtest.id
   vcn_id         = oci_core_vcn.vcn.id
   route_rules {
-    network_entity_id = data.oci_core_private_ips.private_ips_by_ip_address.private_ips[0].id # oc1 instance private ip
+    network_entity_id = data.oci_core_private_ips.private_ips_by_ip_address[0].private_ips[0].id # oc1 instance private ip
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
   }
 }
 
 resource "oci_core_subnet" "private_subnet" {
+  count               = var.oc1_tf ? 1 : 0
   display_name              = "Private subnet"
   cidr_block                = "10.0.1.0/24"
   compartment_id            = oci_identity_compartment.rihtest.id
   vcn_id                    = oci_core_vcn.vcn.id
-  route_table_id            = oci_core_route_table.private_route_table.id
+  route_table_id            = oci_core_route_table.private_route_table[0].id
   security_list_ids         = [oci_core_security_list.private_security_list.id]
   prohibit_internet_ingress = true
 }

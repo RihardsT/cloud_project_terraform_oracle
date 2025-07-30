@@ -7,6 +7,7 @@ data "oci_core_images" "ubuntu_E2_micro" {
 }
 
 resource "oci_core_instance" "oc0_pub" {
+  count               = var.oc0_tf_pub ? 1 : 0
   availability_domain = data.oci_identity_availability_domain.rihtest.name
   compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.E2.1.Micro"
@@ -43,5 +44,5 @@ resource "oci_core_instance" "oc0_pub" {
 }
 
 output "oc0_pub_ip" {
-  value = oci_core_instance.oc0_pub.public_ip
+  value = oci_core_instance.oc0_pub[*].public_ip
 }

@@ -14,7 +14,7 @@ data "oci_core_images" "example_images" {
 # }
 
 resource "oci_core_instance" "oc0" {
-  count               = 0
+  count               = var.oc0_tf ? 2 : 0
   availability_domain = data.oci_identity_availability_domain.rihtest.name
   compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.E2.1.Micro"
@@ -26,7 +26,7 @@ resource "oci_core_instance" "oc0" {
   }
   create_vnic_details {
     assign_public_ip = "false"
-    subnet_id        = oci_core_subnet.private_subnet.id
+    subnet_id        = oci_core_subnet.private_subnet[0].id
   }
   source_details {
     boot_volume_size_in_gbs = "50"

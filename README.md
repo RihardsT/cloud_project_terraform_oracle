@@ -26,7 +26,19 @@ https://registry.terraform.io/providers/oracle/oci
 
 ### Running in Oracle Cloud shell
 With cloud_project repo cloned and tfer repo too.
+
 ```
+# Set up secrets
+mkdir ~/.oci
+vi ~/.oci/config
+vi ~/.oci/oci_api_key.pem
+
 cd cloud_project/cloud_project_terraform_oracle
+mkdir secrets
+# Put in backend
+vi secrets/backend
+vi terraform.tfvars
+
+tofu init -backend-config=secrets/backend -upgrade
 ../tfer/tfer plan
 ```

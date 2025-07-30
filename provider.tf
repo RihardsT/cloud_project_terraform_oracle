@@ -28,3 +28,7 @@ variable "internal_vm_metadata" {}
 
 variable "storage_bucket_name" { default = "rih_storage" }
 variable "is_run_remotely" { default = true }
+
+variable "oc1_tf" { default = false }
+variable "oc0_tf" { default = false }
+variable "oc0_tf_pub" { default = false }

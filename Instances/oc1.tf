@@ -7,6 +7,7 @@ data "oci_core_images" "ubuntu_A1" {
 }
 
 resource "oci_core_instance" "oc1" {
+  count               = var.oc1_tf ? 1 : 0
   availability_domain = data.oci_identity_availability_domain.rihtest.name # "Xwvt:EU-STOCKHOLM-1-AD-1"
   compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.A1.Flex"
@@ -50,5 +51,5 @@ resource "oci_core_instance" "oc1" {
 }
 
 output "ip" {
-  value = oci_core_instance.oc1.public_ip
+  value = oci_core_instance.oc1[*].public_ip
 }
