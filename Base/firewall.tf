@@ -34,8 +34,10 @@ resource "oci_core_security_list" "security_list" {
     }
   }
   # TCP ingress rules from Internet
+  # 8132 for k0s - konnectivity, https://docs.k0sproject.io/stable/networking/
+  # without it allowed, kubectl logs gives "No agent available" error
   dynamic "ingress_security_rules" {
-    for_each = toset([22, 80, 81, 443, 6443, 10250, 25565])
+    for_each = toset([22, 80, 81, 443, 6443, 8132, 10250, 25565])
     iterator = tcp_port
     content {
       protocol    = "6"

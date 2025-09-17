@@ -7,11 +7,11 @@ data "oci_core_images" "ubuntu_E2_micro" {
 }
 
 resource "oci_core_instance" "oc0_pub" {
-  count               = var.oc0_tf_pub ? 1 : 0
+  count               = var.oc0_tf_pub
   availability_domain = data.oci_identity_availability_domain.rihtest.name
   compartment_id      = oci_identity_compartment.rihtest.id
   shape               = "VM.Standard.E2.1.Micro"
-  display_name        = "oc0_pub"
+  display_name        = "oc${count.index}_pub"
 
   shape_config {
     memory_in_gbs = 1
@@ -24,7 +24,9 @@ resource "oci_core_instance" "oc0_pub" {
   source_details {
     boot_volume_size_in_gbs = "50"
     boot_volume_vpus_per_gb = "10"
-    source_id               = data.oci_core_images.ubuntu_E2_micro.images[0].id
+    # If you sort of want to recreate the node, but keep the actual resources,
+    # you can change disk and you will have a clean VM again
+    source_id               = data.oci_core_images.ubuntu_E2_micro.images[1].id
     source_type             = "image"
   }
   # metadata = var.vm_metadata
