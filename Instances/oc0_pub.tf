@@ -29,8 +29,8 @@ resource "oci_core_instance" "oc0_pub" {
     source_id               = data.oci_core_images.ubuntu_E2_micro.images[1].id
     source_type             = "image"
   }
-  # metadata = var.vm_metadata
-  metadata = { "ssh_authorized_keys" = file("~/.ssh/id_rsa.pub") }
+  metadata = var.vm_metadata_pub_rsa
+  # metadata = { "ssh_authorized_keys" = file("~/.ssh/id_rsa.pub") }
   provisioner "local-exec" {
     command    = <<EOT
     if ${var.is_run_remotely}; then exit 0; fi;
