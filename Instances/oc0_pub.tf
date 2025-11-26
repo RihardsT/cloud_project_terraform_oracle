@@ -26,7 +26,7 @@ resource "oci_core_instance" "oc0_pub" {
     boot_volume_vpus_per_gb = "10"
     # If you sort of want to recreate the node, but keep the actual resources,
     # you can change disk and you will have a clean VM again
-    source_id               = data.oci_core_images.ubuntu_E2_micro.images[1].id
+    source_id               = data.oci_core_images.ubuntu_E2_micro.images[0].id
     source_type             = "image"
   }
   metadata = var.vm_metadata_pub_rsa
@@ -35,9 +35,10 @@ resource "oci_core_instance" "oc0_pub" {
     command    = <<EOT
     if ${var.is_run_remotely}; then exit 0; fi;
     sleep 30 && \
+    export HOST_IP=${self.public_ip} && \
     export ANSIBLE_HOST_KEY_CHECKING=False && export ANSIBLE_SSH_RETRIES=15 && \
-    ansible-playbook -i ${self.public_ip}, \
-    -e node_ip_address=${self.public_ip} \
+    ansible-playbook -i $HOST_IP, \
+    -e node_ip_address=$HOST_IP \
     -u ubuntu --diff -e ansible_python_interpreter=/usr/bin/python3 -e ansible_port=22 \
     /home/rihards/Code/cloud_project/cloud_project_ansible/oc0_pub.yml
     EOT
