@@ -1,5 +1,5 @@
 ### Init
-```
+```shell
 tofu init -backend-config=secrets/backend -upgrade
 
 # With my trashy tfer
@@ -30,7 +30,7 @@ https://registry.terraform.io/providers/oracle/oci
 ### Running in Oracle Cloud shell
 With cloud_project repo cloned and tfer repo too.
 
-```
+```shell
 # Set up secrets
 mkdir ~/.oci
 vi ~/.oci/config
