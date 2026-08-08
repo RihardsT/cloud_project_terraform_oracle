@@ -1,9 +1,9 @@
 ### Init
 ```shell
-tofu init -backend-config=secrets/backend -upgrade
+tofu init -backend-config=secrets/backend -upgrade -reconfigure
 
 # With my trashy tfer
-tfer init -backend-config=../secrets/backend -upgrade
+tfer init -backend-config=../secrets/backend -upgrade -reconfigure
 
 # Checking the API calls?
 TF_LOG=DEBUG TF_LOG_PROVIDER=DEBUG tfer apply -auto-approve

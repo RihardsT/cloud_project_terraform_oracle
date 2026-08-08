@@ -29,6 +29,11 @@ resource "oci_core_instance" "oc0_pub" {
     source_id               = data.oci_core_images.ubuntu_E2_micro.images[0].id
     source_type             = "image"
   }
+  lifecycle {
+    ignore_changes = [
+      source_details,
+    ]
+  }
   metadata = var.vm_metadata_pub_rsa
   # metadata = { "ssh_authorized_keys" = file("~/.ssh/id_rsa.pub") }
   provisioner "local-exec" {

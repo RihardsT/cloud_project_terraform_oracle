@@ -14,8 +14,8 @@ resource "oci_core_instance" "oc1" {
   display_name        = "oc1"
 
   shape_config {
-    memory_in_gbs = 24
-    ocpus         = 4
+    memory_in_gbs = 12
+    ocpus         = 2
   }
   create_vnic_details {
     assign_public_ip       = "true"

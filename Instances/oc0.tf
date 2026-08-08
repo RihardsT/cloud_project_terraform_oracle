@@ -34,6 +34,11 @@ resource "oci_core_instance" "oc0" {
     source_id               = data.oci_core_images.example_images.images[0].id
     source_type             = "image"
   }
+  lifecycle {
+    ignore_changes = [
+      source_details,
+    ]
+  }
   metadata = var.internal_vm_metadata
   # provisioner "local-exec" {
   #   command    = <<EOT
